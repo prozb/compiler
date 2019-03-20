@@ -1,0 +1,65 @@
+Inhalt des Archivs spl-visitor-skeleton.tar.gz
+----------------------------------------------
+
+Das Archiv enthält eine erweiterte Variante des SPL-Compiler-Skeletts.
+
+ACHTUNG: 
+
+a) Die Klassen sind teilweise unvollstaendig und lassen sich in dieser
+   unvollstaendigen Form nicht compilieren.
+
+b) Das Skelett enthält neben Teilen der semantischen Analyse auch Teile
+   der Variablen-Allokation und der Codeerzeugung
+
+
+1. package absyn
+
+   a) abstrakte Klasse Visitor 
+
+   b) Visitor-Klasse DoNothingVisitor
+      - implementiert leere Aktionen für alle Knotentypen
+      - Subklassen koennen sich die Implementierung leerer Aktionen sparen
+        Bsp.: semantische Pruefung der leeren Anweisung
+
+   c) abstrakte Klasse ListNode / Klasse ListNodeIterator
+      - Subklassen werden iterierbar: DecList, ExpList, StmList:
+        verkuerzte Form der for-Schleife verwendbar, z.B.
+
+		public void visit(DecList list) {
+			for (Absyn elem: list)
+				elem.accept(this); 
+		}
+
+2. package semant
+
+   a) Klasse SematicChecker
+      - (unvollstaendiger) Rahmen für semantische Prüfung
+      - Hilfsfunktionen checkClass
+   b) Klasse TableInitializer
+      - Initialisierung der globalen Symboltabelle
+        ACHTUNG: Wer das benutzt sollte es auch verstehen! Z.B.: {{ ... }}
+                 Google-Stichwort "double brace initialisation"
+   c) Klasse TableBuilder
+      - Skelett für den ersten Durchgang der semantischen Analyse:
+        Ziel: Aufbau der Symboltabellen und Typen aus den Deklarationen
+
+   d) Klasse ProcedureBodyChecker
+      - Skelett für den zweiten Durchgang der semantischen Analyse:
+
+3. package Table
+
+   - Klasse VarEntry: enthaelt ein offset-Attribut fuer die Codeerzeugung
+
+4. package Types
+ 
+   - Die Typ-Klassen ArrayType und PrimitiveType enthalten schon die
+     "bytesize"-Attribute fuer die Codeerzeugung
+
+5. package codegen
+
+   - Klasse Codegenerator 
+
+      erweitertes Skelett für die Codegenerierung:
+      - diverse Hilfsfunktionen
+      - Skelett für Subklasse CodegenVisitor
+

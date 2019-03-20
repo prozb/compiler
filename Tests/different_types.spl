@@ -1,0 +1,10 @@
+type intliste = array [10] of int;
+
+proc main(){
+	var a: int;
+	var b: int;
+	Summe(a,12*12);
+}
+
+proc Summe(ref a: int, b: int) {
+}

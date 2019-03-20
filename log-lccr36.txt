@@ -1,0 +1,1565 @@
+Evaluation: SPL compiler for puck virtual machine
+TIME: Mi 15. Aug 18:59:36 CEST 2018
+UID:  lccr36
+MAIL: leon.cengiz.coert@mni.thm.de
+TEAM: 
+Coert, Leon, 5171002
+Rozbytskyi, Pavlo, 5174559
+
+
+
+------ STEP 1. build compiler -------
+***** error:    "wrong Makefile"
+***   warning:  "trying to build compiler with standard Makefile"
+        rm -f *~
+        rm -f Tests/*~
+        rm -f main/*~
+        rm -f parse/*~
+        rm -f absyn/*~
+        rm -f sym/*~
+        rm -f table/*~
+        rm -f types/*~
+        rm -f semant/*~
+        rm -f varalloc/*~
+        rm -f codegen/*~
+        rm -f main/*.class
+        rm -f parse/Scanner.java parse/Parser.java
+        rm -f parse/sym.java parse/*.class
+        rm -f absyn/*.class
+        rm -f sym/*.class
+        rm -f table/*.class
+        rm -f types/*.class
+        rm -f semant/*.class
+        rm -f varalloc/*.class
+        rm -f codegen/*.class
+        rm -f Tests/*.asm
+        java -cp lib/java-cup-11a.jar java_cup.Main \
+        		  -parser Parser -expect 1 parse/parser.cup
+        Warning : *** Shift/Reduce conflict found in state #85
+          between ifVerzweigung ::= IF LPAREN vergleichsAusdruck RPAREN anweisungen (*) 
+          and     ifVerzweigung ::= IF LPAREN vergleichsAusdruck RPAREN anweisungen (*) ELSE anweisungen 
+          under symbol ELSE
+          Resolved in favor of shifting.
+
+        ------- CUP v0.11a beta 20060608 Parser Generation Summary -------
+          0 errors and 1 warning
+          33 terminals, 29 non-terminals, and 62 productions declared, 
+          producing 120 unique parse states.
+          0 terminals declared but not used.
+          0 non-terminals declared but not used.
+          0 productions never reduced.
+          1 conflict detected (1 expected).
+          Code written to "Parser.java", and "sym.java".
+        ---------------------------------------------------- (v0.11a beta 20060608)
+        mv Parser.java parse
+        mv sym.java parse
+        java -cp ./lib/JFlex.jar JFlex.Main parse/scanner.jflex
+        Reading "parse/scanner.jflex"
+        Constructing NFA : 160 states in NFA
+        Converting NFA to DFA : 
+        ......................................................................
+        72 states before minimization, 67 states in minimized DFA
+        Writing code to "parse/Scanner.java"
+        java -cp lib/java-cup-11a.jar java_cup.Main \
+        		  -parser Parser -expect 1 parse/parser.cup
+        Warning : *** Shift/Reduce conflict found in state #85
+          between ifVerzweigung ::= IF LPAREN vergleichsAusdruck RPAREN anweisungen (*) 
+          and     ifVerzweigung ::= IF LPAREN vergleichsAusdruck RPAREN anweisungen (*) ELSE anweisungen 
+          under symbol ELSE
+          Resolved in favor of shifting.
+
+        ------- CUP v0.11a beta 20060608 Parser Generation Summary -------
+          0 errors and 1 warning
+          33 terminals, 29 non-terminals, and 62 productions declared, 
+          producing 120 unique parse states.
+          0 terminals declared but not used.
+          0 non-terminals declared but not used.
+          0 productions never reduced.
+          1 conflict detected (1 expected).
+          Code written to "Parser.java", and "sym.java".
+        ---------------------------------------------------- (v0.11a beta 20060608)
+        mv Parser.java parse
+        mv sym.java parse
+        javac -cp lib/java-cup-11a-runtime.jar -sourcepath . main/Main.java
+------ STEP 2: run tests ------------
+***** error:    "spl script missing"
+***   warning:  "trying to use standard spl script"
+____________________
+acker.spl
+./spl /tmp/spltest/ref/reftests/src/acker.spl /home/cbtest/hu2/teamdirs/lccr36/results/acker.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/acker.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/acker.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/acker.o
+
+        Parsed 178 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar acker.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/acker.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/acker.x
+execution finished
+VM output:
+        273 185218078 -3003
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/acker.x
+        Interrupted: Segfault at 0x900B1DFF
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/acker.out /tmp/spltest/ref/reftests/output/acker.out
+***** error:    "output differs"
+reference output:
+        0 0 1
+        0 1 2
+        0 2 3
+        0 3 4
+        0 4 5
+        0 5 6
+        0 6 7
+        1 0 2
+        1 1 3
+        1 2 4
+        1 3 5
+        1 4 6
+        1 5 7
+        1 6 8
+        2 0 3
+        2 1 5
+        2 2 7
+        2 3 9
+        2 4 11
+        2 5 13
+        2 6 15
+        3 0 5
+        3 1 13
+        3 2 29
+        3 3 61
+        3 4 125
+        3 5 253
+        3 6 509
+Test 1 - acker.spl - result: 0 score: 0
+____________________
+arrayasgn.spl
+./spl /tmp/spltest/ref/reftests/src/arrayasgn.spl /home/cbtest/hu2/teamdirs/lccr36/results/arrayasgn.a
+        java.lang.RuntimeException: Error: assignment requires integer variable in line 11
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:222)
+        	at absyn.AssignStm.accept(AssignStm.java:22)
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:84)
+        	at absyn.ProcDec.accept(ProcDec.java:32)
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:69)
+        	at absyn.DecList.accept(DecList.java:18)
+        	at semant.ProcedureBodyChecker.check(ProcedureBodyChecker.java:22)
+        	at semant.SemanticChecker.check(SemanticChecker.java:35)
+        	at main.Main.main(Main.java:110)
+        **** Error: Error: assignment requires integer variable in line 11
+SPL compiler found error: /tmp/spltest/ref/reftests/src/arrayasgn.spl
+	no assembler file, compiler found an error
+	reference compiler found an error
+Test 2 - arrayasgn.spl - result: 1 score: 1
+____________________
+arrayparm.spl
+./spl /tmp/spltest/ref/reftests/src/arrayparm.spl /home/cbtest/hu2/teamdirs/lccr36/results/arrayparm.a
+        java.lang.RuntimeException: parameter '1' must be a reference parameter in line 13
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:151)
+        	at absyn.CallStm.accept(CallStm.java:28)
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:84)
+        	at absyn.ProcDec.accept(ProcDec.java:32)
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:69)
+        	at absyn.DecList.accept(DecList.java:18)
+        	at semant.ProcedureBodyChecker.check(ProcedureBodyChecker.java:22)
+        	at semant.SemanticChecker.check(SemanticChecker.java:35)
+        	at main.Main.main(Main.java:110)
+        **** Error: parameter '1' must be a reference parameter in line 13
+SPL compiler found error: /tmp/spltest/ref/reftests/src/arrayparm.spl
+	no assembler file, compiler found an error
+	reference compiler found an error
+Test 3 - arrayparm.spl - result: 1 score: 2
+____________________
+bits.spl
+./spl /tmp/spltest/ref/reftests/src/bits.spl /home/cbtest/hu2/teamdirs/lccr36/results/bits.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/bits.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/bits.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/bits.o
+
+        Parsed 122 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar bits.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/bits.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/bits.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/bits.x
+        Interrupted: Segfault at 0x 2000002
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/bits.out /tmp/spltest/ref/reftests/output/bits.out
+***** error:    "output differs"
+reference output:
+        0000 0111 0101 1011 1100 1101 0001 0101
+Test 4 - bits.spl - result: 0 score: 2
+____________________
+gcd.spl
+./spl /tmp/spltest/ref/reftests/src/gcd.spl /home/cbtest/hu2/teamdirs/lccr36/results/gcd.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/gcd.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/gcd.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/gcd.o
+
+        Parsed 117 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar gcd.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/gcd.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/gcd.x
+execution finished
+VM output:
+        10164 2646 42
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/gcd.x
+        VM halted by HALT instruction
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/gcd.out /tmp/spltest/ref/reftests/output/gcd.out
+same output
+Test 5 - gcd.spl - result: 1 score: 3
+____________________
+hello.spl
+./spl /tmp/spltest/ref/reftests/src/hello.spl /home/cbtest/hu2/teamdirs/lccr36/results/hello.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/hello.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/hello.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/hello.o
+
+        Parsed 82 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar hello.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/hello.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/hello.x
+execution finished
+VM output:
+        Hello, world!
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/hello.x
+        VM halted by HALT instruction
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/hello.out /tmp/spltest/ref/reftests/output/hello.out
+same output
+Test 6 - hello.spl - result: 1 score: 4
+____________________
+multiply.spl
+./spl /tmp/spltest/ref/reftests/src/multiply.spl /home/cbtest/hu2/teamdirs/lccr36/results/multiply.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/multiply.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/multiply.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/multiply.o
+
+        Parsed 98 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar multiply.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/multiply.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/multiply.x
+execution finished
+VM output:
+         0   0   0   0   0   0   0   0   0   0   0  
+         0   1   2   3   4   5   6   7   8   9  10  
+         0   2   4   6   8  10  12  14  16  18  20  
+         0   3   6   9  12  15  18  21  24  27  30  
+         0   4   8  12  16  20  24  28  32  36  40  
+         0   5  10  15  20  25  30  35  40  45  50  
+         0   6  12  18  24  30  36  42  48  54  60  
+         0   7  14  21  28  35  42  49  56  63  70  
+         0   8  16  24  32  40  48  56  64  72  80  
+         0   9  18  27  36  45  54  63  72  81  90  
+         0  10  20  30  40  50  60  70  80  90  100  
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/multiply.x
+        VM halted by HALT instruction
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/multiply.out /tmp/spltest/ref/reftests/output/multiply.out
+same output
+Test 7 - multiply.spl - result: 1 score: 5
+____________________
+partind1.spl
+./spl /tmp/spltest/ref/reftests/src/partind1.spl /home/cbtest/hu2/teamdirs/lccr36/results/partind1.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/partind1.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/partind1.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/partind1.o
+
+        Parsed 179 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar partind1.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/partind1.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/partind1.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/partind1.x
+        Interrupted: Tried to open register $0 for writing
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/partind1.out /tmp/spltest/ref/reftests/output/partind1.out
+***** error:    "output differs"
+reference output:
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 1 2 3 4 5 6 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+Test 8 - partind1.spl - result: 0 score: 5
+____________________
+partind2.spl
+./spl /tmp/spltest/ref/reftests/src/partind2.spl /home/cbtest/hu2/teamdirs/lccr36/results/partind2.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/partind2.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/partind2.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/partind2.o
+
+        Parsed 259 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar partind2.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/partind2.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/partind2.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/partind2.x
+        Interrupted: Tried to open register $0 for writing
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/partind2.out /tmp/spltest/ref/reftests/output/partind2.out
+***** error:    "output differs"
+reference output:
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+
+        0 0 0 0 0 0 0 
+        0 2 0 0 0 0 0 
+        0 0 4 0 0 0 0 
+        0 0 0 6 0 0 0 
+        0 0 0 0 8 0 0 
+
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+        0 0 0 0 0 0 0 
+
+Test 9 - partind2.spl - result: 0 score: 5
+____________________
+queens.spl
+./spl /tmp/spltest/ref/reftests/src/queens.spl /home/cbtest/hu2/teamdirs/lccr36/results/queens.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/queens.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/queens.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/queens.o
+
+        Parsed 425 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar queens.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/queens.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/queens.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/queens.x
+        Interrupted: Segfault at 0x 2000002
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/queens.out /tmp/spltest/ref/reftests/output/queens.out
+***** error:    "output differs"
+reference output:
+         0 . . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . 0 . . . .
+
+         0 . . . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . 0 . . . . .
+
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . . 0 . . . .
+
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . 0 . . . . . .
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         . . . . 0 . . .
+
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . . . . . 0 . .
+
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . 0 . . . . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . 0 . . . .
+
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . 0 . . .
+
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . . 0 . . .
+
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         0 . . . . . . .
+
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+
+         . . . 0 . . . .
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         . . . . . . 0 .
+
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . 0 . . . . . .
+
+         . . . 0 . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . . . 0
+
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+
+         . . . 0 . . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+
+         . . . 0 . . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . . . 0 . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . 0 . . . .
+
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         0 . . . . . . .
+
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . . . . . . . 0
+         . . 0 . . . . .
+
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . . 0 . . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+
+         . . . . 0 . . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . . 0 . . . .
+
+         . . . . 0 . . .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . . 0
+
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . 0 . . . . . .
+
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . 0 . . . . .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . 0 . . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . . . 0 . . .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+
+         . . . . . 0 . .
+         . . 0 . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . 0 . . .
+
+         . . . . . 0 . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . 0 . . . . .
+
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . 0 . . . . .
+
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . 0 . . . . .
+
+         . . . . . . 0 .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . . . . 0 .
+         . 0 . . . . . .
+         . . . . . 0 . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . 0 . . . .
+         . . . . . . . 0
+         . . . . 0 . . .
+
+         . . . . . . 0 .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . . . . 0 . . .
+         . 0 . . . . . .
+         . . . 0 . . . .
+
+         . . . . . . 0 .
+         . . 0 . . . . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . 0 . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . . . 0 . . . .
+
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . . . . . . 0
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . 0 . . . . . .
+         . . . . . . . 0
+         . . . . . 0 . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . 0 . . .
+
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+
+         . . . . . . . 0
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+         . . . . . 0 . .
+
+         . . . . . . . 0
+         . . 0 . . . . .
+         0 . . . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . 0 . . .
+         . . . . . . 0 .
+         . . . 0 . . . .
+
+         . . . . . . . 0
+         . . . 0 . . . .
+         0 . . . . . . .
+         . . 0 . . . . .
+         . . . . . 0 . .
+         . 0 . . . . . .
+         . . . . . . 0 .
+         . . . . 0 . . .
+
+Test 10 - queens.spl - result: 0 score: 5
+____________________
+reftest.spl
+./spl /tmp/spltest/ref/reftests/src/reftest.spl /home/cbtest/hu2/teamdirs/lccr36/results/reftest.a
+        java.lang.RuntimeException: procedure 'p' argument 1 must be a variable in line 11
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:112)
+        	at absyn.CallStm.accept(CallStm.java:28)
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:84)
+        	at absyn.ProcDec.accept(ProcDec.java:32)
+        	at semant.ProcedureBodyChecker$CheckVisitor.visit(ProcedureBodyChecker.java:69)
+        	at absyn.DecList.accept(DecList.java:18)
+        	at semant.ProcedureBodyChecker.check(ProcedureBodyChecker.java:22)
+        	at semant.SemanticChecker.check(SemanticChecker.java:35)
+        	at main.Main.main(Main.java:110)
+        **** Error: procedure 'p' argument 1 must be a variable in line 11
+SPL compiler found error: /tmp/spltest/ref/reftests/src/reftest.spl
+	no assembler file, compiler found an error
+	reference compiler found an error
+Test 11 - reftest.spl - result: 1 score: 6
+____________________
+simple.spl
+./spl /tmp/spltest/ref/reftests/src/simple.spl /home/cbtest/hu2/teamdirs/lccr36/results/simple.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/simple.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/simple.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/simple.o
+
+        Parsed 34 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar simple.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/simple.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/simple.x
+execution finished
+VM output:
+        1VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/simple.x
+        VM halted by HALT instruction
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/simple.out /tmp/spltest/ref/reftests/output/simple.out
+same output
+Test 12 - simple.spl - result: 1 score: 7
+____________________
+swap.spl
+./spl /tmp/spltest/ref/reftests/src/swap.spl /home/cbtest/hu2/teamdirs/lccr36/results/swap.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/swap.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/swap.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/swap.o
+
+        Parsed 100 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar swap.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/swap.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/swap.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/swap.x
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/swap.out /tmp/spltest/ref/reftests/output/swap.out
+***** error:    "output differs"
+reference output:
+        2 3
+        3 2
+Test 13 - swap.spl - result: 0 score: 7
+____________________
+test5.spl
+./spl /tmp/spltest/ref/reftests/src/test5.spl /home/cbtest/hu2/teamdirs/lccr36/results/test5.a
+        java.lang.RuntimeException: expression too complicated, running out of registers
+        	at codegen.Codegenerator.checkRegister(Codegenerator.java:35)
+        	at codegen.Codegenerator.access$100(Codegenerator.java:14)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:265)
+        	at absyn.SimpleVar.accept(SimpleVar.java:26)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:168)
+        	at absyn.VarExp.accept(VarExp.java:20)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:175)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:225)
+        	at absyn.AssignStm.accept(AssignStm.java:22)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:147)
+        	at absyn.StmList.accept(StmList.java:18)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:410)
+        	at absyn.ProcDec.accept(ProcDec.java:32)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:355)
+        	at absyn.DecList.accept(DecList.java:18)
+        	at codegen.Codegenerator.genCode(Codegenerator.java:30)
+        	at main.Main.main(Main.java:115)
+        **** Error: expression too complicated, running out of registers
+***** error:    "SPL compiler found error: /tmp/spltest/ref/reftests/src/test5.spl"
+***** error:    "-e \t but reference compiler produced assembler code"
+Test 14 - test5.spl - result: 0 score: 7
+____________________
+test6.spl
+./spl /tmp/spltest/ref/reftests/src/test6.spl /home/cbtest/hu2/teamdirs/lccr36/results/test6.a
+        java.lang.RuntimeException: expression too complicated, running out of registers
+        	at codegen.Codegenerator.checkRegister(Codegenerator.java:35)
+        	at codegen.Codegenerator.access$100(Codegenerator.java:14)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:265)
+        	at absyn.SimpleVar.accept(SimpleVar.java:26)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:168)
+        	at absyn.VarExp.accept(VarExp.java:20)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:175)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:180)
+        	at absyn.OpExp.accept(OpExp.java:35)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:225)
+        	at absyn.AssignStm.accept(AssignStm.java:22)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:147)
+        	at absyn.StmList.accept(StmList.java:18)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:410)
+        	at absyn.ProcDec.accept(ProcDec.java:32)
+        	at codegen.Codegenerator$CodegenVisitor.visit(Codegenerator.java:355)
+        	at absyn.DecList.accept(DecList.java:18)
+        	at codegen.Codegenerator.genCode(Codegenerator.java:30)
+        	at main.Main.main(Main.java:115)
+        **** Error: expression too complicated, running out of registers
+***** error:    "SPL compiler found error: /tmp/spltest/ref/reftests/src/test6.spl"
+***** error:    "-e \t but reference compiler produced assembler code"
+Test 15 - test6.spl - result: 0 score: 7
+____________________
+test7.spl
+./spl /tmp/spltest/ref/reftests/src/test7.spl /home/cbtest/hu2/teamdirs/lccr36/results/test7.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/test7.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/test7.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/test7.o
+
+        Parsed 68 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar test7.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/test7.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/test7.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/test7.x
+        Interrupted: Segfault at 0x 2000002
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/test7.out /tmp/spltest/ref/reftests/output/test7.out
+***** error:    "output differs"
+reference output:
+        ok
+Test 16 - test7.spl - result: 0 score: 7
+____________________
+test8.spl
+./spl /tmp/spltest/ref/reftests/src/test8.spl /home/cbtest/hu2/teamdirs/lccr36/results/test8.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/test8.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/test8.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/test8.o
+
+        Parsed 80 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar test8.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/test8.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/test8.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/test8.x
+        Interrupted: Segfault at 0x 2000002
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/test8.out /tmp/spltest/ref/reftests/output/test8.out
+***** error:    "output differs"
+reference output:
+        [error] index out of bounds
+Test 17 - test8.spl - result: 0 score: 7
+____________________
+test9.spl
+./spl /tmp/spltest/ref/reftests/src/test9.spl /home/cbtest/hu2/teamdirs/lccr36/results/test9.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/test9.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/test9.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/test9.o
+
+        Parsed 78 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar test9.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/test9.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/test9.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/test9.x
+        Interrupted: Segfault at 0x 2000002
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/test9.out /tmp/spltest/ref/reftests/output/test9.out
+***** error:    "output differs"
+reference output:
+        [error] index out of bounds
+Test 18 - test9.spl - result: 0 score: 7
+____________________
+threedim.spl
+./spl /tmp/spltest/ref/reftests/src/threedim.spl /home/cbtest/hu2/teamdirs/lccr36/results/threedim.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/threedim.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/threedim.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/threedim.o
+
+        Parsed 240 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar threedim.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/threedim.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/threedim.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/threedim.x
+        Interrupted: Tried to open register $0 for writing
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/threedim.out /tmp/spltest/ref/reftests/output/threedim.out
+***** error:    "output differs"
+reference output:
+        10000
+        00000
+        00000
+        00000
+        00000
+
+        00000
+        01000
+        00000
+        00000
+        00000
+
+        00000
+        00000
+        00100
+        00000
+        00000
+
+        00000
+        00000
+        00000
+        00010
+        00000
+
+        00000
+        00000
+        00000
+        00000
+        00001
+
+Test 19 - threedim.spl - result: 0 score: 7
+____________________
+twodim.spl
+./spl /tmp/spltest/ref/reftests/src/twodim.spl /home/cbtest/hu2/teamdirs/lccr36/results/twodim.a
+SPL compiler finished
+compilation succeeded
+java -jar /tmp/spltest/ref/puck/puckasm.jar /home/cbtest/hu2/teamdirs/lccr36/results/twodim.a
+        Assembler invoked with the following options:
+        Input Path: /home/cbtest/hu2/teamdirs/lccr36/results/twodim.a
+        Output Path: /home/cbtest/hu2/teamdirs/lccr36/results/twodim.o
+
+        Parsed 157 Assembler Lines
+
+        Compilation succeeded
+assembler succeeded
+java -jar /tmp/spltest/ref/puck/puckln.jar twodim.o spllib.o -op . -out /home/cbtest/hu2/teamdirs/lccr36/results/twodim.x
+/tmp/spltest/ref/puck/puck-static /home/cbtest/hu2/teamdirs/lccr36/results/twodim.x
+execution finished
+VM output:
+VM error log:
+        Input file: /home/cbtest/hu2/teamdirs/lccr36/results/twodim.x
+        Interrupted: Accessed nonexisting register ÿ
+comparing VM output with reference output
+cmp /home/cbtest/hu2/teamdirs/lccr36/testoutput/twodim.out /tmp/spltest/ref/reftests/output/twodim.out
+***** error:    "output differs"
+reference output:
+        10000
+        01000
+        00100
+        00010
+        00001
+Test 20 - twodim.spl - result: 0 score: 7
+-------------------
+TOTAL SCORE: 7 of 20

@@ -1,0 +1,21 @@
+type A = array[7] of int;
+type B = array[5] of A;
+
+
+// B = array[5] of array[7] of int;
+proc p(ref x: B) { // array[5] of array[7] of int;
+  var i: int;
+
+  i := 0;
+  while (i < 7) {
+    x[i] := i;
+    i := i + 1;
+  }
+}
+
+proc main(){
+	var x: B;
+
+	p(x);
+}
+

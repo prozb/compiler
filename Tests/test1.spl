@@ -1,0 +1,21 @@
+//
+// test1.spl -- Aufgabenblatt 2, Testprogramm a)
+//
+
+
+proc main() {
+  var x: int;
+  var y: int;
+
+  //readi(x);
+  x := 3;
+  //readi(y);
+  y := 5;
+  printi(x + y);
+  printc('\n');
+  summe(x, y);
+}
+
+proc summe(amk: int, amk2:int){
+
+}

@@ -1,0 +1,19 @@
+type char = array [15] of array [100] of array [20] of int;
+proc main(){
+	var a: int;
+	var b: int;
+
+
+	
+	a := 10;
+	b := 20;
+	
+	a := b;
+	b := a;
+	
+//	var c: int; 
+//	c := 20;
+//	a := c;
+
+	printi(b);
+}

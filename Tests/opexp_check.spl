@@ -1,0 +1,10 @@
+type A15 = array [10] of int; 
+
+proc main(){
+	var a: int;
+	var b: A15;
+	a := 10;
+
+	if(10 > 2){}
+	if(b > 2){} //Error: expression combines different types in line 9
+}

@@ -1,0 +1,26 @@
+type A15 = array [15] of int;
+
+proc main(){
+//	sortiereArray(10);
+}
+
+proc sortiereArray(arrayEingabe: int){
+
+    var i: int;
+    var temp: int;
+
+    i := 0;
+
+    while(i < 14){
+
+        if(arrayEingabe[i] > arrayEingabe[i + 1]){
+
+            temp := arrayEingabe[i];
+
+            arrayEingabe[i] := arrayEingabe[i+1];
+
+            arrayEingabe[i + 1] := temp;
+
+	}
+	}
+	}

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# this script executes all tests
+# be sure u have nja assembler in ksp
+# all tests must be allocated in directory ./Test
+# put just *.asm files
+
+ext=".spl"
+//return_path="../TestBins/"
+
+make dist-clean
+make
+
+cd Test/
+
+for file in *.spl
+do
+	file_name=${file//".spl"/""}
+	out_file="$file_name$ext"
+        echo "file under test: $file_name"
+	echo "============================"
+	echo ""
+	./../spl --tables --vars $file out.txt
+	echo "tested: ============================"
+	echo ""
+done

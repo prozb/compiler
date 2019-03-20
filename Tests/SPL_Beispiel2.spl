@@ -1,0 +1,50 @@
+
+//Eingabe von zwei Zahlen, Ausgabe der in einer anderen Methode Summe
+
+proc main(){
+    var i: int;
+    var j: int;
+    summe(j, i);
+//    i;
+    readi(i);
+    readi(j);
+	
+    //summe(i, j);
+
+    //in bloecken koennen keine neuen variablen und Funktionen deklariert werden.
+    {
+       summe(j, i);
+       //i[2] := 2; catched error 
+       j := 7;
+
+        summe(i, j);
+
+//        if(i > summe(i, j)){ parser already prevents this case
+	if(i > 2){
+            summe(i, j);        
+        }
+
+        while(i < 4){
+
+//            i := i + 1;
+        }
+
+        ;
+
+    }
+//	huj; smth prevents this 
+	huj();
+
+}
+proc huj(){
+
+}
+
+proc summe(ref i: int, ref j:int){
+    var summe: int;
+
+    summe := i + j;
+
+    printi(summe);
+    printc('\n');
+}

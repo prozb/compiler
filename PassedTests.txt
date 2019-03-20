@@ -1,0 +1,107 @@
+1) ackermann.spl
+2) AssignStmTest.spl
+3) SPL_Beispiel1.spl
+4) SPL_Beispiel2.spl
+5) SPL_Beispiel3.spl
+6) SPL_Beispiel4.spl
+7) acker.spl
+8) arithm_requires_integer.spl
+9) arrayasgn.spl
+10)arrayparm.spl 
+11)bits.spl
+12)arrayparm.spl
+13)comparisonRequiresIntegerOp.spl 
+14)different_types.spl
+15)different_types_assign.spl 
+16)drawTest.spl
+17)gcd.spl
+18)indexind_nonarray.spl
+19)indexing_non_array.spl 
+20)indexing_non_integer.spl 
+21)localvararrsize.spl
+22)multiply.spl
+23)new_test.spl
+24)partind1.spl 
+25)arrayindex.spl
+26)new_error.spl
+27)opexp_check.spl 
+28)partind1.spl
+29)partind2.spl
+30)queens.spl 
+31)reftest.spl
+32)sierpinski.spl
+33)size_test.spl
+34)swap.spl
+35)test.spl
+36)test1.spl
+37)test2.spl
+38)test3.spl
+39)test4.spl
+40)test5.spl
+41)test6.spl
+42)test7.spl
+43)test8.spl
+44)test9.spl
+45)threedim.spl
+46)time.spl
+47)twodim.spl
+48)type_mismatch.spl
+49)var_exp_test.spl
+50)variable_in_line.spl 
+
+========================================
+comparing with reference implementation
+========================================
+Passed:
+1) AssignStmTest.spl
+2) acker.spl
+3) SPL_Beispiel1.spl
+4) SPL_Beispiel4.spl
+5) arithm_requires_integer.spl
+6) arrayasgn.spl
+7) arrayparm.spl
+8) bits.spl
+9) boolInArray.spl
+10)check_errors.spl 
+11)comparisonRequiresIntegerOp.spl
+12)different_types.spl
+13)different_types_assign.spl
+14)drawTest.spl
+15)gcd.spl
+16)indexing_non_array.spl 
+17)indexind_nonarray.spl
+18)indexing_non_integer.spl
+19)localvararrsize.spl
+20)multiply.spl
+21)new_error.spl
+22)new_test.spl
+23)opexp_check.spl
+24)partind1.spl 
+25)partind2.spl
+26)queens.spl
+27)reftest.spl
+28)sierpinski.spl
+29)size_test.spl
+30)swap.spl
+31)test.spl
+32)test1.spl
+33)test2.spl
+34)test3.spl
+35)test4.spl
+36)test6.spl
+37)test7.spl
+38)test8.spl
+39)threedim.spl
+40)time.spl
+41)twodim.spl
+42)type_mismatch.spl
+43)var_exp_test.spl
+44)variable_in_line.spl
+45)SPL_Beispiel2.spl
+46) 
+Failed:
+1) SPL_Beispiel2.spl // parse error
+2) SPL_Beispiel3.spl // outgoing area bug
+3) multidim_error.spl //outgoing area bug
+4) test5.spl //running out of registres
+5) test6.spl //running out of registres

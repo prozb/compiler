@@ -1,0 +1,10 @@
+type A5 = array [1] of array [2] of int;
+
+proc main(){
+	var a: int;
+
+	var arr: A5;
+	
+	arr[1][2] := a;
+	arr[1][2] := a;
+}

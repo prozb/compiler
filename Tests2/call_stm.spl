@@ -1,0 +1,24 @@
+type A15 = array [2] of int;
+proc main(){
+	//a(); //error
+	//var a: asd; //error
+	var a: int;
+	//var b: A1; //error
+	var b: A15;
+//		a(); //error
+	//b(); //error
+	//sum(a,a); //error
+	//lol(a, 10);	
+	//lol(a, b[2][1]);
+	//lol(a,a,a); error
+
+	if(a + b > 1){}
+}
+
+proc lol(a : int, ref b : int){
+
+}
+
+proc sum(){
+
+}

@@ -1,0 +1,176 @@
+/*
+ * parser.cup -- SPL parser specification
+ */
+
+
+package parse;
+
+import java_cup.runtime.*;
+import absyn.*;
+import sym.*;
+
+parser code {:
+
+  public void syntax_error(Symbol currToken) {
+    System.out.println(
+      "**** Error: syntax error" +
+      " in line " + currToken.left +
+      ", column " + currToken.right
+    );
+    System.exit(0);
+  }
+
+:}
+
+
+/* Terminals (tokens returned by the scanner). IDENT = Bezeichner; INTLIT = Integer Literal*/
+terminal		ARRAY, ELSE, IF, OF, PROC, REF, TYPE, VAR, WHILE;
+terminal		LPAREN, RPAREN, LBRACK, RBRACK, RCURL, LCURL; 
+terminal 		GT, GE, ASGN, COLON, NE, EQ, LT, LE, COMMA; 
+terminal		MINUS, PLUS, STAR, SLASH, SEMIC;
+terminal 		Integer INTLIT;
+terminal    String IDENT;
+
+
+non terminal	  DecList	programStart;
+non terminal    Dec typOderMethode;
+
+non terminal    TypeDec typeDeklaration;
+non terminal    ArrayTy typeArrayInfinite;
+non terminal    ProcDec methodeDeklaration;
+non terminal    ParDec prozedurParameter;
+non terminal    DecList prozedurParameterInfinite;
+non terminal    DecList prozedurParameterInfiniteOderLeer;
+non terminal    VarDec variablenDeklaration;
+non terminal    DecList variablenDeklarationInfinite;
+non terminal    CallStm methodenAufruf;
+non terminal    ExpList prozedurParameterAufruf;
+non terminal    ExpList prozedurParameterAufrufOderLeer;
+non terminal    Stm anweisungen;
+
+non terminal    StmList anweisungenInfinite;  
+non terminal    IfStm ifVerzweigung;             
+non terminal    WhileStm whileSchleife;  
+                                 
+non terminal    AssignStm variablenZuweisungen;
+non terminal    Var variablenName;
+non terminal    Var variablenNameInfinite;
+
+non terminal    CompStm blockKoerper;
+//non terminal    StmList blockKoerperInfinite;
+non terminal    StmList blockKoerperInhalt;
+
+non terminal    Exp vergleichsAusdruck;
+non terminal    Exp ausdruckTerm;
+non terminal    Exp rech1;
+non terminal    Exp rech2;
+non terminal    Exp rech3; 
+non terminal    Exp rech4; 
+non terminal    Integer vergleichsOperatoren;
+
+/*Precedences  
+precedence left PLUS, MINUS;
+precedence left STAR, SLASH;
+precedence left LPAREN, RPAREN;
+*/
+
+start with programStart;
+
+programStart			        ::= typOderMethode:dec programStart:list {: RESULT = new DecList(dec, list); :}
+                              | {: RESULT = new DecList(); :};
+                              
+typOderMethode            ::= methodeDeklaration:methodedec {: RESULT = methodedec; :} | 
+                              typeDeklaration:typedec {: RESULT = typedec; :};
+
+//All grammar for the typDeklaration
+
+typeDeklaration      ::= TYPE IDENT:name EQ:opr typeArrayInfinite:type SEMIC {: RESULT = new TypeDec(oprleft, oprright, Sym.newSym(name), type); :}
+                       | TYPE IDENT:name EQ:opr IDENT:type SEMIC {: RESULT = new TypeDec(oprleft, oprright, Sym.newSym(name), new NameTy(typeleft, typeright, Sym.newSym(type))); :};
+
+typeArrayInfinite ::= ARRAY LBRACK INTLIT:size RBRACK OF typeArrayInfinite:type {: RESULT = new ArrayTy(sizeleft, sizeright, size, type); :}
+                      | ARRAY LBRACK INTLIT:size RBRACK OF IDENT:type {: RESULT = new ArrayTy(sizeleft, sizeright, size, new NameTy(typeleft, typeright, Sym.newSym(type))); :};
+
+//All grammar for the methodeDeklaration
+
+methodeDeklaration  ::= PROC IDENT:name LPAREN prozedurParameterInfiniteOderLeer:params RPAREN LCURL variablenDeklarationInfinite:vardecList anweisungenInfinite:anweisungendecList RCURL 
+                        {: RESULT = new ProcDec(nameleft, nameright, Sym.newSym(name), params, vardecList, anweisungendecList); :};
+
+prozedurParameterInfiniteOderLeer ::= prozedurParameterInfinite:paraDecList {: RESULT = paraDecList; :} 
+                                      | {: RESULT = new DecList(); :} ;                   
+
+prozedurParameterInfinite ::= prozedurParameter:paraDec {: RESULT = new DecList(paraDec, new DecList()); :} 
+                              | prozedurParameter:paraDec COMMA prozedurParameterInfinite:paraDecList {: RESULT = new DecList(paraDec, paraDecList); :};
+
+prozedurParameter   ::= IDENT:name COLON IDENT:type {: RESULT = new ParDec(nameleft, nameright, Sym.newSym(name), new NameTy(typeleft, typeright, Sym.newSym(type)), false); :} 
+                        | REF IDENT:name COLON IDENT:type {: RESULT = new ParDec(nameleft, nameright, Sym.newSym(name), new NameTy(typeleft, typeright, Sym.newSym(type)), true); :};
+
+variablenDeklarationInfinite  ::= variablenDeklaration:varDec variablenDeklarationInfinite:varDecList {: RESULT = new DecList(varDec, varDecList); :} 
+                                  | {: RESULT = new DecList(); :};
+
+variablenDeklaration  ::= VAR IDENT:name COLON typeArrayInfinite:type SEMIC {: RESULT = new VarDec(nameleft, nameright, Sym.newSym(name), type); :}
+                          | VAR IDENT:name COLON IDENT:type SEMIC {: RESULT = new VarDec(nameleft, nameright, Sym.newSym(name), new NameTy(typeleft, typeright, Sym.newSym(type))); :};
+
+anweisungenInfinite ::= anweisungen:head anweisungenInfinite:tail {: RESULT = new StmList(head, tail);:} 
+                          | {: RESULT = new StmList(); :};
+
+anweisungen ::= whileSchleife:whileStm {: RESULT = whileStm; :}
+                | ifVerzweigung:ifStm {: RESULT = ifStm; :}
+                | blockKoerper:blockStm {: RESULT = blockStm; :}
+                | variablenZuweisungen:varValueStm {: RESULT = varValueStm; :}
+                | methodenAufruf:methodStm {: RESULT = methodStm; :}
+                | SEMIC:empty {: RESULT:empty = new EmptyStm(emptyleft, emptyright); :} ;
+
+//Frage: Bei methodenaufruf den Namen als name oder Sym(name)... oder dergleichen angeben?
+methodenAufruf        ::= IDENT:name LPAREN prozedurParameterAufrufOderLeer:expList RPAREN SEMIC {: RESULT = new CallStm(nameleft, nameright, Sym.newSym(name), expList); :};
+
+prozedurParameterAufrufOderLeer ::= prozedurParameterAufruf:expList {: RESULT = expList; :}
+                                    | {: RESULT = new ExpList(); :};
+
+prozedurParameterAufruf ::= ausdruckTerm:exp {: RESULT = new ExpList(exp, new ExpList()); :}
+                            | ausdruckTerm:head COMMA prozedurParameterAufruf:tail {: RESULT = new ExpList(head, tail); :};  
+
+whileSchleife ::= WHILE LPAREN vergleichsAusdruck:expr RPAREN anweisungen:stms {: RESULT = new WhileStm(exprleft, exprright, expr, stms); :};
+
+ifVerzweigung ::= IF LPAREN vergleichsAusdruck:expr RPAREN anweisungen:stms ELSE anweisungen:elseStms {: RESULT = new IfStm(exprleft, exprright, expr, stms, elseStms); :} 
+                  | IF LPAREN vergleichsAusdruck:expr RPAREN anweisungen:stms {: RESULT = new IfStm(exprleft, exprright, expr, stms, new EmptyStm(stmsleft, stmsright) ); :};
+//elseOderLeer ::= ELSE anweisungen | ;
+
+variablenZuweisungen  ::= variablenName:var ASGN ausdruckTerm:exp SEMIC {: RESULT = new AssignStm(varleft, varright, var, exp); :};
+
+variablenName         ::= IDENT:name {: RESULT = new SimpleVar(nameleft, nameright, Sym.newSym(name)); :} 
+                          | variablenNameInfinite:var LBRACK ausdruckTerm:exp RBRACK{: RESULT = new ArrayVar(varleft, varright, var, exp); :};
+
+variablenNameInfinite ::=variablenNameInfinite:var LBRACK ausdruckTerm:exp RBRACK {: RESULT = new ArrayVar(varleft, varright, var, exp); :}
+                          | IDENT:name {: RESULT = new SimpleVar(nameleft, nameright, Sym.newSym(name)); :};
+
+vergleichsAusdruck ::= ausdruckTerm:exp1 vergleichsOperatoren:opr ausdruckTerm:exp2 {: RESULT = new OpExp(oprleft, oprright, opr, exp1, exp2); :};
+
+//Berechnung ohne Präzedenz zu benutzen
+//Funktioniert noch nicht richtig. Erst mal mit Präzedenz
+ausdruckTerm ::= ausdruckTerm:exp1 PLUS:opr rech1:exp2 {: RESULT = new OpExp(oprleft, oprright, OpExp.ADD, exp1, exp2); :}
+                   | ausdruckTerm:exp1 MINUS:opr rech1:exp2 {: RESULT = new OpExp(oprleft, oprright, OpExp.SUB, exp1, exp2); :}
+                   | rech1:exp {: RESULT = exp; :};
+
+rech1        ::= rech1:exp1 STAR:opr rech2:exp2 {: RESULT = new OpExp(oprleft, oprright, OpExp.MUL, exp1, exp2); :}
+                 | rech1:exp1 SLASH:opr rech2:exp2 {: RESULT = new OpExp(oprleft, oprright, OpExp.DIV, exp1, exp2); :}
+                 | rech2:exp {: RESULT = exp; :};
+
+rech2        ::= MINUS:opr rech3:exp1 {: RESULT = new OpExp(oprleft, oprright, OpExp.SUB, new IntExp(oprleft, oprright, 0), exp1); :}
+                | rech3:exp {: RESULT = exp; :};
+                
+rech3        ::= LPAREN ausdruckTerm:exp RPAREN {: RESULT = exp; :}
+                  | rech4:exp {: RESULT = exp; :};
+
+rech4        ::= variablenName:var {: RESULT = new VarExp(varleft, varright, var); :}
+                | INTLIT:zahl {: RESULT = new IntExp(zahlleft, zahlright, zahl); :};
+
+vergleichsOperatoren  ::= EQ {: RESULT = OpExp.EQU; :} 
+                          | LT {: RESULT = OpExp.LST; :}
+                          | LE {: RESULT = OpExp.LSE; :}
+                          | GT {: RESULT = OpExp.GRT; :}
+                          | GE {: RESULT = OpExp.GRE; :}
+                          | NE {: RESULT = OpExp.NEQ; :};
+
+blockKoerper ::= LCURL blockKoerperInhalt:compList RCURL {: RESULT = new CompStm(compListleft, compListright, compList);:};
+//blockKoerperInfinite ::= blockKoerperInhalt:head blockKoerperInfinite:tail {: RESULT = new StmList(head, tail); :};
+blockKoerperInhalt ::= anweisungenInfinite:stm {: RESULT = stm; :};

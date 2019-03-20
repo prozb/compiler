@@ -1,0 +1,11 @@
+type A15 = array [15]  of int;
+proc main(){
+	var a: A15;
+	var b: int;
+		
+	//b := 10;
+	a[a] := 10;
+
+}
+
+proc sum(b: int){}

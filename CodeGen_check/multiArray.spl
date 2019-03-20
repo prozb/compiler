@@ -1,0 +1,14 @@
+type A15 = array [8] of array [4] of int;
+
+proc main(){
+  var eingabe: int;
+  var arrayeingabe: A15;
+
+  arrayeingabe[8][5]:= 4;
+  
+  sortArray(arrayeingabe);
+}
+
+proc sortArray(ref arrayEin: A15){
+
+}

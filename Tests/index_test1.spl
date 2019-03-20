@@ -1,0 +1,11 @@
+type A = array [2] of int;
+
+proc main(){
+	var a: A;
+
+	if(a[2][2] > 2){
+		
+	}	
+
+
+}

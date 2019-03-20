@@ -1,0 +1,7 @@
+fixed+arithm_requires_integer.spl
+fixed+arrayasgn.spl
+fixed+arrayparm.spl
+fixed+array_test.spl
+fixed+bits.spl
+fixed+endtest.spl
+partind2.spl

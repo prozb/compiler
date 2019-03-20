@@ -1,0 +1,34 @@
+
+//Eingabe von zwei Zahlen, Ausgabe der in einer anderen Methode Summe
+type A15 = array [15] of int;
+
+proc main(){
+    var i: int;
+    var j: int;
+    var arrayEingabe: A15;
+
+
+    //summe(j);
+    //i();
+    //readi(i);
+    //readi(j);
+    j := 10;
+    if(b > 4){
+//        j := 20;
+    }
+
+    if(10>4){}
+    summe(i, j);
+}
+proc huj(){
+
+}
+
+proc summe(ref i: int, ref j:int){
+    var summe: int;
+
+    summe := i + j;
+
+    printi(summe);
+    printc('\n');
+}

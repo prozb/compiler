@@ -1,0 +1,8 @@
+type A = array [1] of int;
+
+proc main(){
+	var a: A;
+	
+	a[1][2] := 10;
+
+}

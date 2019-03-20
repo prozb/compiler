@@ -1,0 +1,21 @@
+
+type A15 = array [2] of int;
+type B15 = array [2] of A15;
+
+proc main(){
+	var b: A15;
+	var d: B15;
+	var c: int;
+	
+	d[b[1]][1] := 2;		
+//	c[1] := 2;
+//	b[1 + c] := 2;
+  //      b[c + 1] := 2; // correct
+//	b[b] := 2; // thrown correct error
+	//b[b[1] + 1] := 2; //correct	
+//	c[2] := 2; //throws correct error 
+	//b[1 + 22 + c[1]] := 2; //throws correct error
+	//b[b[c + 1]] := 2; //correct
+	//b[b[b]] := b; //correct error: illegal indexing with a non-integer in line
+	
+}

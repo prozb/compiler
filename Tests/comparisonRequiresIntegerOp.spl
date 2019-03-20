@@ -1,0 +1,7 @@
+type A15 = array [20] of int;
+
+proc main(){
+	var a: A15;
+
+   if(a > a){}
+}

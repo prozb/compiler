@@ -1,0 +1,22 @@
+
+//Eingabe von zwei Zahlen, Ausgabe der in einer anderen Methode Summe
+
+proc main(){
+    var i: int;
+    var j: int;
+    
+    //j := 2 * 3 * a; Error: undefined variable a in line 8
+    j := 2*3;
+}
+proc huj(){
+
+}
+
+proc summe(ref i: int, ref j:int){
+    var summe: int;
+
+    summe := i + j;
+
+    printi(summe);
+    printc('\n');
+}

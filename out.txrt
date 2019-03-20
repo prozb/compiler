@@ -1,0 +1,1338 @@
+.object out
+
+.import spllib printi
+.import spllib printc
+.import spllib readi
+.import spllib readc
+.import spllib exit
+.import spllib time
+.import spllib clearAll
+.import spllib setPixel
+.import spllib drawLine
+.import spllib drawCircle
+.import spllib indexError
+
+plot:
+SUBC $31 $31 16
+SUBC $31 $31 4
+STW $29 $31
+ADDC $29 $31 20
+SUBC $31 $31 4
+STW $30 $31
+SUBC $31 $31 20
+ADDC $8 $29 -4
+ADDC $9 $29 0
+LDW $9 $9
+LDW $9 $9
+SETW $10 128
+SUB $9 $9 $10
+SETW $10 3
+MULI $9 $9 $10
+SETW $10 2
+DIVI $9 $9 $10
+SETW $10 320
+ADD $9 $9 $10
+STW $9 $8
+ADDC $8 $29 -8
+ADDC $9 $29 4
+LDW $9 $9
+LDW $9 $9
+SETW $10 128
+SUB $9 $9 $10
+SETW $10 3
+MULI $9 $9 $10
+SETW $10 2
+DIVI $9 $9 $10
+SETW $10 240
+ADD $9 $9 $10
+STW $9 $8
+ADDC $8 $29 -12
+ADDC $9 $29 8
+LDW $9 $9
+SETW $10 128
+SUB $9 $9 $10
+SETW $10 3
+MULI $9 $9 $10
+SETW $10 2
+DIVI $9 $9 $10
+SETW $10 320
+ADD $9 $9 $10
+STW $9 $8
+ADDC $8 $29 -16
+ADDC $9 $29 12
+LDW $9 $9
+SETW $10 128
+SUB $9 $9 $10
+SETW $10 3
+MULI $9 $9 $10
+SETW $10 2
+DIVI $9 $9 $10
+SETW $10 240
+ADD $9 $9 $10
+STW $9 $8
+ADDC $8 $29 -4
+LDW $8 $8
+SUBC $9 $29 44
+STW $8 $9
+ADDC $8 $29 -8
+LDW $8 $8
+SUBC $9 $29 40
+STW $8 $9
+ADDC $8 $29 -12
+LDW $8 $8
+SUBC $9 $29 36
+STW $8 $9
+ADDC $8 $29 -16
+LDW $8 $8
+SUBC $9 $29 32
+STW $8 $9
+SETW $8 0
+SUBC $9 $29 28
+STW $8 $9
+CALL $30 drawLine 
+ADDC $8 $29 0
+LDW $8 $8
+ADDC $9 $29 8
+LDW $9 $9
+STW $9 $8
+ADDC $8 $29 4
+LDW $8 $8
+ADDC $9 $29 12
+LDW $9 $9
+STW $9 $8
+ADDC $31 $31 20
+LDW $30 $31
+ADDC $31 $31 4
+LDW $29 $31
+ADDC $31 $31 20
+JMPR $30; Jump back
+
+a:
+SUBC $31 $31 4
+STW $29 $31
+ADDC $29 $31 4
+SUBC $31 $31 4
+STW $30 $31
+SUBC $31 $31 24
+ADDC $7 $29 0
+LDW $7 $7
+SETW $8 0
+GTI $7 $7 $8
+BRF $7 L0 
+ADDC $7 $29 0
+LDW $7 $7
+SETW $8 1
+SUB $7 $7 $8
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -4
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+SUBC $7 $29 -8
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 12
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 16
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 12
+STW $7 $8
+CALL $30 a 
+ADDC $7 $29 4
+LDW $7 $7
+ADDC $8 $29 4
+LDW $8 $8
+LDW $8 $8
+ADDC $9 $29 12
+LDW $9 $9
+ADD $8 $8 $9
+STW $8 $7
+ADDC $7 $29 8
+LDW $7 $7
+ADDC $8 $29 8
+LDW $8 $8
+LDW $8 $8
+ADDC $9 $29 12
+LDW $9 $9
+SUB $8 $8 $9
+STW $8 $7
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+ADDC $7 $29 4
+LDW $7 $7
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 8
+LDW $7 $7
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+CALL $30 plot 
+ADDC $7 $29 0
+LDW $7 $7
+SETW $8 1
+SUB $7 $7 $8
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -4
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+SUBC $7 $29 -8
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 12
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 16
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 12
+STW $7 $8
+CALL $30 b 
+ADDC $7 $29 4
+LDW $7 $7
+ADDC $8 $29 4
+LDW $8 $8
+LDW $8 $8
+SETW $9 2
+ADDC $10 $29 12
+LDW $10 $10
+MULI $9 $9 $10
+ADD $8 $8 $9
+STW $8 $7
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+ADDC $7 $29 4
+LDW $7 $7
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 8
+LDW $7 $7
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+CALL $30 plot 
+ADDC $7 $29 0
+LDW $7 $7
+SETW $8 1
+SUB $7 $7 $8
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -4
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+SUBC $7 $29 -8
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 12
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 16
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 12
+STW $7 $8
+CALL $30 d 
+ADDC $7 $29 4
+LDW $7 $7
+ADDC $8 $29 4
+LDW $8 $8
+LDW $8 $8
+ADDC $9 $29 12
+LDW $9 $9
+ADD $8 $8 $9
+STW $8 $7
+ADDC $7 $29 8
+LDW $7 $7
+ADDC $8 $29 8
+LDW $8 $8
+LDW $8 $8
+ADDC $9 $29 12
+LDW $9 $9
+ADD $8 $8 $9
+STW $8 $7
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+ADDC $7 $29 4
+LDW $7 $7
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 8
+LDW $7 $7
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+CALL $30 plot 
+ADDC $7 $29 0
+LDW $7 $7
+SETW $8 1
+SUB $7 $7 $8
+SUBC $8 $29 32
+STW $7 $8
+SUBC $7 $29 -4
+LDW $7 $7
+SUBC $8 $29 28
+STW $7 $8
+SUBC $7 $29 -8
+LDW $7 $7
+SUBC $8 $29 24
+STW $7 $8
+ADDC $7 $29 12
+LDW $7 $7
+SUBC $8 $29 20
+STW $7 $8
+SUBC $7 $29 -16
+LDW $7 $7
+SUBC $8 $29 16
+STW $7 $8
+SUBC $7 $29 -20
+LDW $7 $7
+SUBC $8 $29 12
+STW $7 $8
+CALL $30 a 
+L0:
+ADDC $31 $31 24
+LDW $30 $31
+ADDC $31 $31 4
+LDW $29 $31
+ADDC $31 $31 4
+JMPR $30; Jump back
+
+b:
+SUBC $31 $31 4
+STW $29 $31
+ADDC $29 $31 4
+SUBC $31 $31 4
+STW $30 $31
+SUBC $31 $31 24
+ADDC $6 $29 0
+LDW $6 $6
+SETW $7 0
+GTI $6 $6 $7
+BRF $6 L1 
+ADDC $6 $29 0
+LDW $6 $6
+SETW $7 1
+SUB $6 $6 $7
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -4
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+SUBC $6 $29 -8
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 12
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 16
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 12
+STW $6 $7
+CALL $30 b 
+ADDC $6 $29 4
+LDW $6 $6
+ADDC $7 $29 4
+LDW $7 $7
+LDW $7 $7
+ADDC $8 $29 12
+LDW $8 $8
+SUB $7 $7 $8
+STW $7 $6
+ADDC $6 $29 8
+LDW $6 $6
+ADDC $7 $29 8
+LDW $7 $7
+LDW $7 $7
+ADDC $8 $29 12
+LDW $8 $8
+SUB $7 $7 $8
+STW $7 $6
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+ADDC $6 $29 4
+LDW $6 $6
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 8
+LDW $6 $6
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+CALL $30 plot 
+ADDC $6 $29 0
+LDW $6 $6
+SETW $7 1
+SUB $6 $6 $7
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -4
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+SUBC $6 $29 -8
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 12
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 16
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 12
+STW $6 $7
+CALL $30 c 
+ADDC $6 $29 8
+LDW $6 $6
+ADDC $7 $29 8
+LDW $7 $7
+LDW $7 $7
+SETW $8 2
+ADDC $9 $29 12
+LDW $9 $9
+MULI $8 $8 $9
+SUB $7 $7 $8
+STW $7 $6
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+ADDC $6 $29 4
+LDW $6 $6
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 8
+LDW $6 $6
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+CALL $30 plot 
+ADDC $6 $29 0
+LDW $6 $6
+SETW $7 1
+SUB $6 $6 $7
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -4
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+SUBC $6 $29 -8
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 12
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 16
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 12
+STW $6 $7
+CALL $30 a 
+ADDC $6 $29 4
+LDW $6 $6
+ADDC $7 $29 4
+LDW $7 $7
+LDW $7 $7
+ADDC $8 $29 12
+LDW $8 $8
+ADD $7 $7 $8
+STW $7 $6
+ADDC $6 $29 8
+LDW $6 $6
+ADDC $7 $29 8
+LDW $7 $7
+LDW $7 $7
+ADDC $8 $29 12
+LDW $8 $8
+SUB $7 $7 $8
+STW $7 $6
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+ADDC $6 $29 4
+LDW $6 $6
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 8
+LDW $6 $6
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+CALL $30 plot 
+ADDC $6 $29 0
+LDW $6 $6
+SETW $7 1
+SUB $6 $6 $7
+SUBC $7 $29 32
+STW $6 $7
+SUBC $6 $29 -4
+LDW $6 $6
+SUBC $7 $29 28
+STW $6 $7
+SUBC $6 $29 -8
+LDW $6 $6
+SUBC $7 $29 24
+STW $6 $7
+ADDC $6 $29 12
+LDW $6 $6
+SUBC $7 $29 20
+STW $6 $7
+SUBC $6 $29 -16
+LDW $6 $6
+SUBC $7 $29 16
+STW $6 $7
+SUBC $6 $29 -20
+LDW $6 $6
+SUBC $7 $29 12
+STW $6 $7
+CALL $30 b 
+L1:
+ADDC $31 $31 24
+LDW $30 $31
+ADDC $31 $31 4
+LDW $29 $31
+ADDC $31 $31 4
+JMPR $30; Jump back
+
+c:
+SUBC $31 $31 4
+STW $29 $31
+ADDC $29 $31 4
+SUBC $31 $31 4
+STW $30 $31
+SUBC $31 $31 24
+ADDC $5 $29 0
+LDW $5 $5
+SETW $6 0
+GTI $5 $5 $6
+BRF $5 L2 
+ADDC $5 $29 0
+LDW $5 $5
+SETW $6 1
+SUB $5 $5 $6
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -4
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+SUBC $5 $29 -8
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 12
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 16
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 12
+STW $5 $6
+CALL $30 c 
+ADDC $5 $29 4
+LDW $5 $5
+ADDC $6 $29 4
+LDW $6 $6
+LDW $6 $6
+ADDC $7 $29 12
+LDW $7 $7
+SUB $6 $6 $7
+STW $6 $5
+ADDC $5 $29 8
+LDW $5 $5
+ADDC $6 $29 8
+LDW $6 $6
+LDW $6 $6
+ADDC $7 $29 12
+LDW $7 $7
+ADD $6 $6 $7
+STW $6 $5
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+ADDC $5 $29 4
+LDW $5 $5
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 8
+LDW $5 $5
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+CALL $30 plot 
+ADDC $5 $29 0
+LDW $5 $5
+SETW $6 1
+SUB $5 $5 $6
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -4
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+SUBC $5 $29 -8
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 12
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 16
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 12
+STW $5 $6
+CALL $30 d 
+ADDC $5 $29 4
+LDW $5 $5
+ADDC $6 $29 4
+LDW $6 $6
+LDW $6 $6
+SETW $7 2
+ADDC $8 $29 12
+LDW $8 $8
+MULI $7 $7 $8
+SUB $6 $6 $7
+STW $6 $5
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+ADDC $5 $29 4
+LDW $5 $5
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 8
+LDW $5 $5
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+CALL $30 plot 
+ADDC $5 $29 0
+LDW $5 $5
+SETW $6 1
+SUB $5 $5 $6
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -4
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+SUBC $5 $29 -8
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 12
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 16
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 12
+STW $5 $6
+CALL $30 b 
+ADDC $5 $29 4
+LDW $5 $5
+ADDC $6 $29 4
+LDW $6 $6
+LDW $6 $6
+ADDC $7 $29 12
+LDW $7 $7
+SUB $6 $6 $7
+STW $6 $5
+ADDC $5 $29 8
+LDW $5 $5
+ADDC $6 $29 8
+LDW $6 $6
+LDW $6 $6
+ADDC $7 $29 12
+LDW $7 $7
+SUB $6 $6 $7
+STW $6 $5
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+ADDC $5 $29 4
+LDW $5 $5
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 8
+LDW $5 $5
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+CALL $30 plot 
+ADDC $5 $29 0
+LDW $5 $5
+SETW $6 1
+SUB $5 $5 $6
+SUBC $6 $29 32
+STW $5 $6
+SUBC $5 $29 -4
+LDW $5 $5
+SUBC $6 $29 28
+STW $5 $6
+SUBC $5 $29 -8
+LDW $5 $5
+SUBC $6 $29 24
+STW $5 $6
+ADDC $5 $29 12
+LDW $5 $5
+SUBC $6 $29 20
+STW $5 $6
+SUBC $5 $29 -16
+LDW $5 $5
+SUBC $6 $29 16
+STW $5 $6
+SUBC $5 $29 -20
+LDW $5 $5
+SUBC $6 $29 12
+STW $5 $6
+CALL $30 c 
+L2:
+ADDC $31 $31 24
+LDW $30 $31
+ADDC $31 $31 4
+LDW $29 $31
+ADDC $31 $31 4
+JMPR $30; Jump back
+
+d:
+SUBC $31 $31 4
+STW $29 $31
+ADDC $29 $31 4
+SUBC $31 $31 4
+STW $30 $31
+SUBC $31 $31 24
+ADDC $4 $29 0
+LDW $4 $4
+SETW $5 0
+GTI $4 $4 $5
+BRF $4 L3 
+ADDC $4 $29 0
+LDW $4 $4
+SETW $5 1
+SUB $4 $4 $5
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -4
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+SUBC $4 $29 -8
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 12
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 16
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 12
+STW $4 $5
+CALL $30 d 
+ADDC $4 $29 4
+LDW $4 $4
+ADDC $5 $29 4
+LDW $5 $5
+LDW $5 $5
+ADDC $6 $29 12
+LDW $6 $6
+ADD $5 $5 $6
+STW $5 $4
+ADDC $4 $29 8
+LDW $4 $4
+ADDC $5 $29 8
+LDW $5 $5
+LDW $5 $5
+ADDC $6 $29 12
+LDW $6 $6
+ADD $5 $5 $6
+STW $5 $4
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+ADDC $4 $29 4
+LDW $4 $4
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 8
+LDW $4 $4
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+CALL $30 plot 
+ADDC $4 $29 0
+LDW $4 $4
+SETW $5 1
+SUB $4 $4 $5
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -4
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+SUBC $4 $29 -8
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 12
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 16
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 12
+STW $4 $5
+CALL $30 a 
+ADDC $4 $29 8
+LDW $4 $4
+ADDC $5 $29 8
+LDW $5 $5
+LDW $5 $5
+SETW $6 2
+ADDC $7 $29 12
+LDW $7 $7
+MULI $6 $6 $7
+ADD $5 $5 $6
+STW $5 $4
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+ADDC $4 $29 4
+LDW $4 $4
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 8
+LDW $4 $4
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+CALL $30 plot 
+ADDC $4 $29 0
+LDW $4 $4
+SETW $5 1
+SUB $4 $4 $5
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -4
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+SUBC $4 $29 -8
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 12
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 16
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 12
+STW $4 $5
+CALL $30 c 
+ADDC $4 $29 4
+LDW $4 $4
+ADDC $5 $29 4
+LDW $5 $5
+LDW $5 $5
+ADDC $6 $29 12
+LDW $6 $6
+SUB $5 $5 $6
+STW $5 $4
+ADDC $4 $29 8
+LDW $4 $4
+ADDC $5 $29 8
+LDW $5 $5
+LDW $5 $5
+ADDC $6 $29 12
+LDW $6 $6
+ADD $5 $5 $6
+STW $5 $4
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+ADDC $4 $29 4
+LDW $4 $4
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 8
+LDW $4 $4
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+CALL $30 plot 
+ADDC $4 $29 0
+LDW $4 $4
+SETW $5 1
+SUB $4 $4 $5
+SUBC $5 $29 32
+STW $4 $5
+SUBC $4 $29 -4
+LDW $4 $4
+SUBC $5 $29 28
+STW $4 $5
+SUBC $4 $29 -8
+LDW $4 $4
+SUBC $5 $29 24
+STW $4 $5
+ADDC $4 $29 12
+LDW $4 $4
+SUBC $5 $29 20
+STW $4 $5
+SUBC $4 $29 -16
+LDW $4 $4
+SUBC $5 $29 16
+STW $4 $5
+SUBC $4 $29 -20
+LDW $4 $4
+SUBC $5 $29 12
+STW $4 $5
+CALL $30 d 
+L3:
+ADDC $31 $31 24
+LDW $30 $31
+ADDC $31 $31 4
+LDW $29 $31
+ADDC $31 $31 4
+JMPR $30; Jump back
+
+.executable main
+main:
+SUBC $31 $31 36
+SUBC $31 $31 4
+STW $29 $31
+ADDC $29 $31 40
+SUBC $31 $31 4
+STW $30 $31
+SUBC $31 $31 24
+ADDC $3 $29 -36
+SETW $4 245
+SETW $5 65536
+MULI $4 $4 $5
+SETW $5 245
+SETW $6 256
+MULI $5 $5 $6
+ADD $4 $4 $5
+SETW $5 220
+ADD $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -36
+LDW $3 $3
+SUBC $4 $29 68
+STW $3 $4
+CALL $30 clearAll 
+ADDC $3 $29 -16
+SETW $4 0
+STW $4 $3
+ADDC $3 $29 -12
+SETW $4 256
+SETW $5 4
+DIVI $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -20
+SETW $4 2
+ADDC $5 $29 -12
+LDW $5 $5
+MULI $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -24
+SETW $4 3
+ADDC $5 $29 -12
+LDW $5 $5
+MULI $4 $4 $5
+STW $4 $3
+L4:
+ADDC $3 $29 -16
+LDW $3 $3
+SETW $4 4
+NE $3 $3 $4
+BRF $3 L5 
+ADDC $3 $29 -16
+ADDC $4 $29 -16
+LDW $4 $4
+SETW $5 1
+ADD $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -20
+ADDC $4 $29 -20
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+SUB $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -12
+ADDC $4 $29 -12
+LDW $4 $4
+SETW $5 2
+DIVI $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -24
+ADDC $4 $29 -24
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+ADD $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -4
+ADDC $4 $29 -20
+LDW $4 $4
+STW $4 $3
+ADDC $3 $29 -8
+ADDC $4 $29 -24
+LDW $4 $4
+STW $4 $3
+ADDC $3 $29 -28
+ADDC $4 $29 -4
+LDW $4 $4
+STW $4 $3
+ADDC $3 $29 -32
+ADDC $4 $29 -8
+LDW $4 $4
+STW $4 $3
+ADDC $3 $29 -16
+LDW $3 $3
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 4
+SUBC $4 $29 64
+STW $3 $4
+SUBC $3 $29 8
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -12
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+SUBC $3 $29 28
+SUBC $4 $29 52
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 48
+STW $3 $4
+CALL $30 a 
+ADDC $3 $29 -4
+ADDC $4 $29 -4
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+ADD $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -8
+ADDC $4 $29 -8
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+SUB $4 $4 $5
+STW $4 $3
+SUBC $3 $29 28
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 64
+STW $3 $4
+ADDC $3 $29 -4
+LDW $3 $3
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -8
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+CALL $30 plot 
+ADDC $3 $29 -16
+LDW $3 $3
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 4
+SUBC $4 $29 64
+STW $3 $4
+SUBC $3 $29 8
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -12
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+SUBC $3 $29 28
+SUBC $4 $29 52
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 48
+STW $3 $4
+CALL $30 b 
+ADDC $3 $29 -4
+ADDC $4 $29 -4
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+SUB $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -8
+ADDC $4 $29 -8
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+SUB $4 $4 $5
+STW $4 $3
+SUBC $3 $29 28
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 64
+STW $3 $4
+ADDC $3 $29 -4
+LDW $3 $3
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -8
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+CALL $30 plot 
+ADDC $3 $29 -16
+LDW $3 $3
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 4
+SUBC $4 $29 64
+STW $3 $4
+SUBC $3 $29 8
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -12
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+SUBC $3 $29 28
+SUBC $4 $29 52
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 48
+STW $3 $4
+CALL $30 c 
+ADDC $3 $29 -4
+ADDC $4 $29 -4
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+SUB $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -8
+ADDC $4 $29 -8
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+ADD $4 $4 $5
+STW $4 $3
+SUBC $3 $29 28
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 64
+STW $3 $4
+ADDC $3 $29 -4
+LDW $3 $3
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -8
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+CALL $30 plot 
+ADDC $3 $29 -16
+LDW $3 $3
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 4
+SUBC $4 $29 64
+STW $3 $4
+SUBC $3 $29 8
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -12
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+SUBC $3 $29 28
+SUBC $4 $29 52
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 48
+STW $3 $4
+CALL $30 d 
+ADDC $3 $29 -4
+ADDC $4 $29 -4
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+ADD $4 $4 $5
+STW $4 $3
+ADDC $3 $29 -8
+ADDC $4 $29 -8
+LDW $4 $4
+ADDC $5 $29 -12
+LDW $5 $5
+ADD $4 $4 $5
+STW $4 $3
+SUBC $3 $29 28
+SUBC $4 $29 68
+STW $3 $4
+SUBC $3 $29 32
+SUBC $4 $29 64
+STW $3 $4
+ADDC $3 $29 -4
+LDW $3 $3
+SUBC $4 $29 60
+STW $3 $4
+ADDC $3 $29 -8
+LDW $3 $3
+SUBC $4 $29 56
+STW $3 $4
+CALL $30 plot 
+JMP L4
+L5:
+ADDC $31 $31 24
+LDW $30 $31
+ADDC $31 $31 4
+LDW $29 $31
+ADDC $31 $31 40
+JMPR $30; Jump back

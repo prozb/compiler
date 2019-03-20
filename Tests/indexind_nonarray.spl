@@ -1,0 +1,6 @@
+proc main(){
+	var x: int;
+
+	x[2] := 2; //illegal indexing a non-array in line 4
+	
+}

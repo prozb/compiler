@@ -1,0 +1,58 @@
+
+//Eingabe von Zahlen in ein Array, sortieren und Ausgabe des Arrays
+
+type A15 = array [15] of int;
+
+proc main(){
+    var eingabe: int;
+    var arrayEingabe: A15;
+    var i: int;
+    
+    i := 0;
+
+    while(i < 15){
+        readi(eingabe);
+        arrayEingabe[i] := eingabe;
+	//arrayEingabe[i] := arrayEingabe[arrayEingabe];
+        i := i + 1;
+    }
+  	
+	readi(i);   
+//	sortiereArray(10);
+	sortiereArray(arrayEingabe);
+}
+
+
+proc sortiereArray(ref arrayEingabe: A15){
+
+    var i: int;
+    var temp: int;
+
+    i := 0;
+
+    while(i < 14){
+        
+        if(arrayEingabe[i] > arrayEingabe[i + 1]){
+            
+            temp := arrayEingabe[i];
+            
+            arrayEingabe[i] := arrayEingabe[i+1];
+
+            arrayEingabe[i + 1] := temp;
+
+            i := 0;
+        }else{
+            i := i + 1;
+        }
+    }
+
+
+    i := 0;
+
+    while(i < 15){
+        printi(arrayEingabe[i]);
+        printc('\n');
+
+        i := i + 1;
+    }
+}

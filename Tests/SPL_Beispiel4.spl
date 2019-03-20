@@ -1,0 +1,48 @@
+
+//Fakultaet iterativ und rekursiv berechnen
+
+proc main(){
+    var eingabe: int;
+ 
+    readi(eingabe);
+    
+    fakultaetIterativ(eingabe);
+
+    fakultaetRekursiv(eingabe, eingabe);
+}
+
+proc fakultaetIterativ(ref eingabe: int){
+    
+    var i: int;
+    var erg: int;
+
+    erg := 1;
+    i := eingabe;
+
+    while(i > 0){
+
+        erg := erg * i;
+
+        i := i - 1;
+    }
+
+    printi(erg);
+    printc('\n');
+
+}
+
+proc fakultaetRekursiv(value: int, ref eingabe: int){
+//muss redeclaration of eingabe bla bla sein? 
+//siehe referenz vm
+
+    if(value <= 1){
+        printi(eingabe);
+        printc('\n');
+    }else{
+        value := value - 1;
+        eingabe := eingabe * value;
+
+        fakultaetRekursiv(value, eingabe);
+    }
+
+}

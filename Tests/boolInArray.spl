@@ -1,0 +1,7 @@
+type A5 = array [2] of int;
+proc main(){
+	var a: A15;
+
+	a[1>2] := 1;
+
+}

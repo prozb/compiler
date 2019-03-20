@@ -1,0 +1,7 @@
+# directories 
+.idea/
+MyTest/ # local tests
+
+#compiled files
+*.class
+

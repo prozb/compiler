@@ -1,0 +1,8 @@
+type A15 = array [10] of int;
+
+proc main(){
+	var a: A15;
+	var b: int;
+	a[a] := 10; //ok
+	a[a[a[1]]] := 10;
+}

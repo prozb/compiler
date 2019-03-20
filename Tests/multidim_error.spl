@@ -1,0 +1,19 @@
+type A = array[7] of int;
+type B = array[5] of A;
+type C = array[3] of B;
+
+proc p(ref x: B) {
+  var i: int;
+  var j: int;
+
+  
+}
+
+proc main() {
+  var c: C;
+ // var i: int;
+  //var j: int;
+ // var k: int;
+
+p(c[1]);
+}

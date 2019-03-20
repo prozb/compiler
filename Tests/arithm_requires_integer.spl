@@ -1,0 +1,9 @@
+type A15 = array [10] of int; 
+proc main(){
+	var a: int;
+	var b: A15;
+	
+//	b := b + b; 	//  Error: arithmetic operation requires integer operands in line
+	if(b + b > b){} //Error: arithmetic operation requires integer operands in line
+	
+}

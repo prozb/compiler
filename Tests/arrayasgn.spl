@@ -1,0 +1,16 @@
+//
+// array assignment
+//
+
+type A = array [10] of int;
+
+proc main() {
+  var a: A;
+  var b: A;
+while(a[1] = 1){
+	b[1] := a[1];
+
+}
+    b := a[1];
+    b := a;
+}

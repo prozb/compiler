@@ -1,0 +1,10 @@
+# folders
+MyTest/		#local tests
+.vscode/
+
+# compiled files
+*.class
+
+# test output files
+out.txt
+
